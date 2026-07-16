@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notifications Feed</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="portal-dashboard">
+  <div class="container mt-4 mb-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <h2 class="mb-0">Notifications Feed</h2>
+    </div>
+
+    <div class="card p-3 mt-3">
+      <div class="row g-2">
+        <div class="col-md-4">
+          <select id="noticeFilterStatus" class="form-select" onchange="applyNoticeFeedFilters()">
+            <option value="all">All Notifications</option>
+            <option value="unread">Unread</option>
+            <option value="read">Read</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <select id="noticeFilterScope" class="form-select" onchange="applyNoticeFeedFilters()">
+            <option value="all">All Audience Types</option>
+            <option value="all_scope">Global</option>
+            <option value="user">Direct</option>
+            <option value="group">Group</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-outline-primary w-100" onclick="markAllNoticesRead()">Mark All As Read</button>
+        </div>
+      </div>
+      <small id="noticeFeedMeta" class="text-muted mt-2"></small>
+    </div>
+
+    <ul id="noticeList" class="card p-3 mt-3 portal-list"></ul>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

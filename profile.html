@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="portal-dashboard">
+  <div class="container mt-4">
+    <h2>My Profile</h2>
+    <div id="profileData" class="card p-3 mt-3"></div>
+    <div id="profileUpdateSection" class="card p-3 mt-3">
+      <h5 class="mb-3">Update Profile</h5>
+      <input id="profileNameInput" class="form-control mb-2" placeholder="Full Name">
+      <input id="profileUsernameInput" class="form-control mb-2" placeholder="Username">
+      <input id="profilePasswordInput" class="form-control mb-2" type="password" placeholder="New Password (optional)">
+      <button class="btn btn-primary" onclick="saveProfileDetails()">Save Profile</button>
+    </div>
+    <div id="profileStudentAcademicSection" class="card p-3 mt-3 d-none">
+      <h5 class="mb-3">Student Academic Details</h5>
+      <input id="studentCourseInput" class="form-control mb-2" placeholder="Course" readonly>
+      <select id="studentSemesterInput" class="form-select mb-2">
+        <option value="">Select Semester</option>
+        <option value="1">Semester 1</option>
+        <option value="2">Semester 2</option>
+        <option value="3">Semester 3</option>
+        <option value="4">Semester 4</option>
+        <option value="5">Semester 5</option>
+        <option value="6">Semester 6</option>
+      </select>
+      <button class="btn btn-outline-primary" onclick="saveStudentAcademicDetails()">Save Academic Details</button>
+    </div>
+    <div id="profileFacultyDetailsSection" class="card p-3 mt-3 d-none">
+      <h5 class="mb-3">Faculty Details</h5>
+      <input id="facultyDesignationInput" class="form-control mb-2" placeholder="Designation">
+      <input id="facultyDepartmentInput" class="form-control mb-2" placeholder="Department">
+      <input id="facultyContactInput" class="form-control mb-2" placeholder="Contact Number">
+      <input id="facultyCabinInput" class="form-control mb-2" placeholder="Cabin / Office Location">
+      <textarea id="facultyAboutInput" class="form-control mb-2" placeholder="About / Notes"></textarea>
+      <button class="btn btn-outline-primary" onclick="saveFacultyDetails()">Save Faculty Details</button>
+    </div>
+    <div id="profileMentoringSection" class="card p-3 mt-3 d-none">
+      <h5 class="mb-3">Faculty Mentoring Details</h5>
+      <select id="mentorCourse" class="form-select mb-2">
+        <option value="">Select Mentoring Course</option>
+        <option value="BCA">BCA</option>
+        <option value="B.Sc. CS">B.Sc. CS</option>
+        <option value="M.Sc. IT">M.Sc. IT</option>
+      </select>
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        <label class="form-check-label"><input class="form-check-input me-1 mentor-semester-checkbox" type="checkbox" value="1">Sem 1</label>
+        <label class="form-check-label"><input class="form-check-input me-1 mentor-semester-checkbox" type="checkbox" value="2">Sem 2</label>
+        <label class="form-check-label"><input class="form-check-input me-1 mentor-semester-checkbox" type="checkbox" value="3">Sem 3</label>
+        <label class="form-check-label"><input class="form-check-input me-1 mentor-semester-checkbox" type="checkbox" value="4">Sem 4</label>
+        <label class="form-check-label"><input class="form-check-input me-1 mentor-semester-checkbox" type="checkbox" value="5">Sem 5</label>
+        <label class="form-check-label"><input class="form-check-input me-1 mentor-semester-checkbox" type="checkbox" value="6">Sem 6</label>
+      </div>
+      <button class="btn btn-outline-primary" onclick="saveMentoringDetails()">Save Mentoring Details</button>
+    </div>
+    <a id="profileBackLink" href="student-dashboard.html" class="btn btn-outline-primary mt-3">Back</a>
+    <button class="btn btn-danger mt-3" onclick="logout()">Logout</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

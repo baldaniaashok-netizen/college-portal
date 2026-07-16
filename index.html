@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>College Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="portal-institution">
+  <div class="container">
+    <div class="portal-institution-logos">
+      <img src="assets/logo-left.png" alt="College Logo Left">
+      <img src="assets/logo-middle.jpg" alt="College Logo Middle">
+      <img src="assets/logo-right.png" alt="College Logo Right">
+    </div>
+    <div class="portal-institution-title">Shri Maneklal M. Patel Institute of Sciences &amp; Research-M.Sc.-IT and B.Sc.-CS</div>
+    <div class="portal-institution-subtitle">SVKM Institute of Computer Studies-BCA</div>
+    <div class="portal-institution-meta">Constituent Colleges of Kadi Sarva Vishwavidyalaya, Sector-15, Gandhinagar</div>
+  </div>
+</div>
+
+<nav class="portal-nav">
+  <div class="container d-flex align-items-center justify-content-between">
+    <div class="portal-brand">
+      <div class="portal-brand-title">SMMPISR-SVKMICS LAB Portal</div>
+      <div class="portal-brand-subtitle">Official college lab resources</div>
+    </div>
+    <div class="portal-actions">
+      <a class="btn btn-outline-light" href="login.html">Login</a>
+      <a class="btn btn-light" href="register.html">Register</a>
+    </div>
+  </div>
+</nav>
+
+<header class="portal-hero">
+  <div class="container">
+    <p class="portal-hero-kicker">Student Access Center</p>
+    <h1 style="white-space: nowrap;">Welcome to the SMMPISR-SVKMICS College LAB Portal</h1>
+    <p class="portal-hero-subtitle">Download software, upload lab files, and access notices in one place.</p>
+    <div class="portal-hero-actions">
+      <a class="btn btn-primary btn-lg" href="login.html">Login to Access Resources</a>
+      <a class="btn btn-outline-light btn-lg" href="register.html">Create a Student Account</a>
+    </div>
+  </div>
+</header>
+
+<main class="container portal-main">
+  <section id="notices" class="portal-section">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <h2 class="portal-section-title">Latest Notices</h2>
+      <span class="portal-section-badge">Updated weekly</span>
+    </div>
+    <ul id="noticeList" class="portal-notice-list">
+      <li class="portal-notice">
+        <div class="portal-notice-title">Lab schedule updated for next week</div>
+        <div class="portal-notice-meta">Posted Feb 14, 2026</div>
+      </li>
+      <li class="portal-notice">
+        <div class="portal-notice-title">New software packages available for download</div>
+        <div class="portal-notice-meta">Posted Feb 10, 2026</div>
+      </li>
+      <li class="portal-notice">
+        <div class="portal-notice-title">Upload window for assignment submissions opens Monday</div>
+        <div class="portal-notice-meta">Posted Feb 7, 2026</div>
+      </li>
+    </ul>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

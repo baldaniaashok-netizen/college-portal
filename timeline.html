@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Timeline</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="portal-dashboard">
+  <main class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+      <div>
+        <h2 class="mb-0">Academic Timeline</h2>
+        <small class="text-muted">Chronological view of notices, deadlines, quizzes, marks, and attendance</small>
+      </div>
+    </div>
+
+    <section class="card p-3 mb-3">
+      <div class="row g-2">
+        <div class="col-md-4">
+          <select id="timelineFilterType" class="form-select" onchange="applyTimelineFilters()">
+            <option value="all">All Types</option>
+            <option value="notice">Notices</option>
+            <option value="deadline">Deadlines</option>
+            <option value="quiz">Quizzes</option>
+            <option value="marks">Marks</option>
+            <option value="attendance">Attendance</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <select id="timelineFilterWindow" class="form-select" onchange="applyTimelineFilters()">
+            <option value="all">All Time</option>
+            <option value="7d">Last 7 Days</option>
+            <option value="30d">Last 30 Days</option>
+            <option value="90d">Last 90 Days</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-outline-primary w-100" onclick="loadStudentTimeline()">Refresh Timeline</button>
+        </div>
+      </div>
+      <div class="row g-2 mt-1">
+        <div class="col-md-8">
+          <input id="timelineSearchInput" class="form-control" placeholder="Search timeline by title/message/type" oninput="applyTimelineFilters()">
+        </div>
+        <div class="col-md-4">
+          <select id="timelinePageSize" class="form-select" onchange="applyTimelineFilters()">
+            <option value="10">10 per page</option>
+            <option value="20" selected>20 per page</option>
+            <option value="50">50 per page</option>
+          </select>
+        </div>
+      </div>
+      <small id="timelineMeta" class="text-muted mt-2"></small>
+    </section>
+
+    <ul id="timelineList" class="portal-timeline"></ul>
+    <div class="d-flex justify-content-between align-items-center mt-3">
+      <small id="timelinePageMeta" class="text-muted"></small>
+      <div class="d-flex gap-2">
+        <button id="timelinePrevBtn" class="btn btn-sm btn-outline-secondary" onclick="changeTimelinePage(-1)" disabled>Prev</button>
+        <button id="timelineNextBtn" class="btn btn-sm btn-outline-secondary" onclick="changeTimelinePage(1)" disabled>Next</button>
+      </div>
+    </div>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

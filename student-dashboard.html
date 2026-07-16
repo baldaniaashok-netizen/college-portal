@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="portal-dashboard">
+
+<div class="portal-institution">
+  <div class="container">
+    <div class="portal-institution-logos">
+      <img src="assets/logo-left.png" alt="College Logo Left">
+      <img src="assets/logo-middle.jpg" alt="College Logo Middle">
+      <img src="assets/logo-right.png" alt="College Logo Right">
+    </div>
+    <div class="portal-institution-title">Shri Maneklal M. Patel Institute of Sciences &amp; Research-M.Sc.-IT and B.Sc.-CS</div>
+    <div class="portal-institution-subtitle">SVKM Institute of Computer Studies-BCA</div>
+    <div class="portal-institution-meta">Constituent Colleges of Kadi Sarva Vishwavidyalaya, Sector-15, Gandhinagar</div>
+  </div>
+</div>
+
+<header class="portal-dashboard-hero">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div>
+        <p class="portal-hero-kicker">Student Workspace</p>
+        <h1 id="studentGreetingTitle" class="portal-dashboard-title">Student Dashboard</h1>
+        <p id="studentGreetingSubtitle" class="portal-dashboard-subtitle">Upload assignments, track files, and stay on top of lab notices.</p>
+      </div>
+      <div class="portal-quick-actions">
+        <button id="noticeBellBtn" class="btn btn-outline-light portal-notice-bell" type="button" onclick="toggleNoticeCenter()">
+          Notifications <span id="noticeBellCount" class="badge text-bg-danger ms-1">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container portal-dashboard-main">
+  <section class="portal-stats student-home-panel">
+    <div class="portal-stat-card">
+      <div class="portal-stat-label">Active Uploads</div>
+      <div id="studentStatUploads" class="portal-stat-value">0</div>
+      <div class="portal-stat-meta">Assignments uploaded</div>
+    </div>
+    <div class="portal-stat-card">
+      <div class="portal-stat-label">Pending Quizzes</div>
+      <div id="studentStatQuizzes" class="portal-stat-value">0</div>
+      <div class="portal-stat-meta">Need submission</div>
+    </div>
+    <div class="portal-stat-card">
+      <div class="portal-stat-label">Unread Notices</div>
+      <div id="studentStatNotices" class="portal-stat-value">0</div>
+      <div class="portal-stat-meta">Not opened yet</div>
+    </div>
+  </section>
+
+  <div class="portal-dashboard-grid">
+    <section class="portal-panel student-home-panel">
+      <div class="portal-panel-header">
+        <h2>Action Center</h2>
+        <span class="portal-panel-tag">Today</span>
+      </div>
+      <div id="studentActionCenterSummary" class="portal-panel-subtitle">Loading your priorities...</div>
+      <ul id="studentActionCenterList" class="portal-list"></ul>
+    </section>
+
+    <section class="portal-panel portal-panel-wide" data-tab-container>
+      <div class="portal-panel-header">
+        <h2>Student Workspace</h2>
+      </div>
+
+      <div id="studentUploadPane" data-tab-pane>
+        <p class="portal-panel-subtitle">Submit your lab files before the deadline. PDF and ZIP accepted.</p>
+        <input id="assignmentSubject" class="form-control" placeholder="Subject (required for assignment)">
+        <input id="subjectFacultyUsername" class="form-control" placeholder="Subject Faculty Username">
+        <input type="file" id="file" class="form-control" multiple>
+        <button class="btn btn-primary mt-3" onclick="uploadFile()">Upload</button>
+        <hr>
+        <h6 class="mb-1">My Assignment Deadlines</h6>
+        <ul id="studentAssignmentDeadlinesList" class="portal-list"></ul>
+      </div>
+
+      <div id="studentFilesPane" class="d-none" data-tab-pane>
+        <div id="studentBulkActions" class="mb-3 d-none align-items-center gap-2">
+          <input type="checkbox" id="studentSelectAllFiles" class="form-check-input" onchange="toggleSelectAllFiles('student')">
+          <label for="studentSelectAllFiles" class="form-check-label me-3">Select All</label>
+          <button class="btn btn-sm btn-outline-primary" onclick="bulkDownloadFiles('student')"><i class="bi bi-download"></i> Download Selected</button>
+          <button class="btn btn-sm btn-outline-danger" onclick="bulkDeleteFiles('student')"><i class="bi bi-trash"></i> Delete Selected</button>
+          <button class="btn btn-sm btn-outline-info" onclick="bulkUpdateFiles('student')"><i class="bi bi-pencil"></i> Edit Selected</button>
+        </div>
+        <ul id="fileList" class="portal-list"></ul>
+      </div>
+
+      <div id="studentQuizPane" class="d-none" data-tab-pane>
+        <p class="portal-panel-subtitle">Select an active quiz, answer all questions, review, and submit.</p>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <button class="btn btn-outline-primary btn-sm" onclick="loadStudentQuizzes()">Refresh Quiz List</button>
+        </div>
+        <ul id="studentQuizList" class="portal-list"></ul>
+        <div id="studentQuizAttemptCard" class="mt-3 d-none">
+          <h5 id="studentQuizTitle" class="mb-1">Quiz</h5>
+          <p id="studentQuizDescription" class="text-muted mb-2"></p>
+          <div id="studentQuizProgressText" class="small text-muted mb-2"></div>
+          <div class="mb-2">
+            <div id="studentQuizQuestionText" class="fw-semibold"></div>
+          </div>
+          <div id="studentQuizObjectiveOptions" class="mb-2 d-none"></div>
+          <textarea id="studentQuizAnswerInput" class="form-control mb-2" rows="4" placeholder="Type your answer here..."></textarea>
+          <div class="d-flex flex-wrap gap-2 mb-2">
+            <button class="btn btn-outline-secondary btn-sm" onclick="goToFirstQuizQuestion()">First</button>
+            <button class="btn btn-outline-secondary btn-sm" onclick="goToPreviousQuizQuestion()">Previous</button>
+            <button class="btn btn-outline-secondary btn-sm" onclick="goToNextQuizQuestion()">Next</button>
+            <button class="btn btn-outline-secondary btn-sm" onclick="goToLastQuizQuestion()">Last</button>
+          </div>
+          <div id="studentQuizReviewList" class="d-flex flex-wrap gap-2 mb-3"></div>
+          <button class="btn btn-success" onclick="submitStudentQuiz()">Submit Quiz</button>
+        </div>
+      </div>
+
+      <div id="studentPracticalPane" class="d-none" data-tab-pane>
+        <div id="practical-exam-container">
+          <h3>Practical Exams</h3>
+          
+          <!-- Create New Submission -->
+          <div style="margin-bottom: 20px; padding: 15px; background: #f9f9f9; border-radius: 4px;">
+            <h4>Create Practical Exam Submission</h4>
+            <form id="create-practical-exam-form">
+              <div style="margin-bottom: 12px;">
+                <label for="exam-title" style="display: block; margin-bottom: 5px;"><strong>Exam Title (Auto - Your Username):</strong></label>
+                <input type="text" id="exam-title" placeholder="Auto-set to your username" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+              </div>
+              <div style="margin-bottom: 12px;">
+                <label for="exam-description" style="display: block; margin-bottom: 5px;"><strong>Description:</strong></label>
+                <textarea id="exam-description" rows="3" placeholder="Exam objectives or requirements..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+              </div>
+              <div style="margin-bottom: 12px;">
+                <label for="exam-subject" style="display: block; margin-bottom: 5px;"><strong>Subject:</strong></label>
+                <input type="text" id="exam-subject" required placeholder="e.g., Data Structures, Web Development" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+              </div>
+              <div style="margin-bottom: 12px;">
+                <label for="exam-due-date" style="display: block; margin-bottom: 5px;"><strong>Exam Date:</strong></label>
+                <input type="datetime-local" id="exam-due-date" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+              </div>
+              <div style="margin-bottom: 12px;">
+                <label for="create-exam-file-input" style="display: block; margin-bottom: 5px;"><strong>Upload Exam Files (.txt, .doc, .docx, .pdf):</strong></label>
+                <input type="file" id="create-exam-file-input" multiple accept=".txt,.docx,.doc,.pdf" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+              </div>
+              <button type="submit" class="btn btn-primary">Create Submission</button>
+              <span id="create-practical-message" style="margin-left: 15px;"></span>
+            </form>
+          </div>
+
+          <!-- Existing Submissions -->
+          <div style="padding: 15px; background: #f9f9f9; border-radius: 4px;">
+            <h4>My Submissions</h4>
+            <div id="practical-submissions-list">
+              <p>Loading submissions...</p>
+            </div>
+          </div>
+
+          <!-- Submission Detail Modal -->
+          <div id="submission-detail-modal" class="portal-modal">
+            <div class="portal-modal-content">
+              <button onclick="closeSubmissionModal()" style="float: right; font-size: 24px; cursor: pointer; border: none; background: none;">&times;</button>
+              <h3 id="modal-exam-title"></h3>
+              
+              <div id="submission-status-section">
+                <p><strong>Status:</strong> <span id="modal-status"></span></p>
+                <p><strong>Total Files:</strong> <span id="modal-total-files"></span></p>
+                <p><strong>Exam Date:</strong> <span id="modal-due-date"></span></p>
+                <p><strong>Submitted Date:</strong> <span id="modal-submitted-date"></span></p>
+                <p id="late-submission-warning" style="color: #d32f2f; display: none;"><strong>⚠ Late Submission</strong></p>
+              </div>
+
+              <div id="review-section" style="display: none; margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 4px;">
+                <h4>Faculty Review</h4>
+                <p><strong>Marks:</strong> <span id="modal-marks">-</span></p>
+                <p><strong>Feedback:</strong></p>
+                <p id="modal-feedback" style="white-space: pre-wrap;">-</p>
+                <p><strong>Reviewed By:</strong> <span id="modal-reviewed-by">-</span></p>
+              </div>
+
+              <!-- File Upload Section -->
+              <div id="upload-section" style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 4px; border: 2px dashed #1976d2;">
+                <h4>Upload Files</h4>
+                <p style="font-size: 14px; color: #666;">You can upload source code, screenshots, output files, and documents (.txt, .doc, .docx, .pdf).</p>
+                <input type="file" id="practical-file-input" multiple accept=".txt,.docx,.doc,.pdf,.xlsx,.xls,.jpg,.jpeg,.png,.gif,.cpp,.c,.java,.py,.js,.zip">
+                <button id="practical-upload-button" onclick="uploadPracticalFiles()" class="btn btn-primary" style="margin-top: 10px;">Upload Files</button>
+                <div id="upload-progress"></div>
+              </div>
+
+              <!-- Files by Type -->
+              <div id="files-by-type-section" style="margin-top: 20px;"></div>
+
+              <button onclick="closeSubmissionModal()" class="btn btn-secondary" style="margin-top: 20px;">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Recent Notices Tab Pane -->
+      <div id="studentNoticesPane" class="d-none" data-tab-pane>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h4 class="mb-0">Recent Notices</h4>
+          <span class="portal-panel-tag">Updates</span>
+        </div>
+        <p class="portal-panel-subtitle">View notices and announcements published by college administration.</p>
+        <ul id="noticeListTab" class="portal-list mt-3"></ul>
+      </div>
+
+      <!-- Academic Timeline Tab Pane -->
+      <div id="studentTimelinePane" class="d-none" data-tab-pane>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div>
+            <h4 class="mb-0">Academic Timeline</h4>
+            <p class="portal-panel-subtitle mb-0">Chronological view of notices, deadlines, quizzes, marks, and attendance</p>
+          </div>
+          <span class="portal-panel-tag">Academic</span>
+        </div>
+        
+        <div class="card p-3 mb-3 bg-light border-0" style="border-radius: 12px;">
+          <div class="row g-2">
+            <div class="col-md-4">
+              <select id="timelineFilterType" class="form-select" onchange="applyTimelineFilters()">
+                <option value="all">All Types</option>
+                <option value="notice">Notices</option>
+                <option value="deadline">Deadlines</option>
+                <option value="quiz">Quizzes</option>
+                <option value="marks">Marks</option>
+                <option value="attendance">Attendance</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <select id="timelineFilterWindow" class="form-select" onchange="applyTimelineFilters()">
+                <option value="all">All Time</option>
+                <option value="7d">Last 7 Days</option>
+                <option value="30d">Last 30 Days</option>
+                <option value="90d">Last 90 Days</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <button class="btn btn-outline-primary w-100" onclick="loadStudentTimeline()">Refresh Timeline</button>
+            </div>
+          </div>
+          <div class="row g-2 mt-1">
+            <div class="col-md-8">
+              <input id="timelineSearchInput" class="form-control" placeholder="Search timeline by title/message/type" oninput="applyTimelineFilters()">
+            </div>
+            <div class="col-md-4">
+              <select id="timelinePageSize" class="form-select" onchange="applyTimelineFilters()">
+                <option value="10">10 per page</option>
+                <option value="20" selected>20 per page</option>
+                <option value="50">50 per page</option>
+              </select>
+            </div>
+          </div>
+          <small id="timelineMeta" class="text-muted mt-2 d-block"></small>
+        </div>
+
+        <ul id="timelineList" class="portal-timeline mt-3"></ul>
+        
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <small id="timelinePageMeta" class="text-muted"></small>
+          <div class="d-flex gap-2">
+            <button id="timelinePrevBtn" class="btn btn-sm btn-outline-secondary" onclick="changeTimelinePage(-1)" disabled>Prev</button>
+            <button id="timelineNextBtn" class="btn btn-sm btn-outline-secondary" onclick="changeTimelinePage(1)" disabled>Next</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Academic Calendar Tab Pane -->
+      <div id="studentCalendarPane" class="d-none" data-tab-pane>
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div>
+            <h4 class="mb-0">Academic Calendar</h4>
+            <p class="portal-panel-subtitle mb-0">Visual monthly planner for assignment deadlines, quizzes, notices, and exams.</p>
+          </div>
+          <span class="portal-panel-tag">Schedule</span>
+        </div>
+
+        <div class="card p-3 border-0 shadow-sm mb-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <button class="btn btn-outline-secondary btn-sm" onclick="navigateCalendarMonth(-1)">
+              <i class="bi bi-chevron-left"></i> Previous
+            </button>
+            <h5 id="calendarMonthYearLabel" class="mb-0 fw-bold text-primary"></h5>
+            <button class="btn btn-outline-secondary btn-sm" onclick="navigateCalendarMonth(1)">
+              Next <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle mb-0 calendar-table" style="table-layout: fixed;">
+              <thead>
+                <tr class="table-light">
+                  <th style="width: 14.28%;">Sun</th>
+                  <th style="width: 14.28%;">Mon</th>
+                  <th style="width: 14.28%;">Tue</th>
+                  <th style="width: 14.28%;">Wed</th>
+                  <th style="width: 14.28%;">Thu</th>
+                  <th style="width: 14.28%;">Fri</th>
+                  <th style="width: 14.28%;">Sat</th>
+                </tr>
+              </thead>
+              <tbody id="calendarGridBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="portal-panel student-home-panel">
+      <div class="portal-panel-header">
+        <h2>Latest Notices</h2>
+        <span class="portal-panel-tag">Updates</span>
+      </div>
+      <ul id="noticeList" class="portal-list"></ul>
+    </section>
+
+    <section id="noticeCenterPanel" class="portal-panel d-none student-home-panel">
+      <div class="portal-panel-header">
+        <h2>Notifications</h2>
+        <button class="btn btn-sm btn-outline-primary" onclick="markAllNoticesRead()">Mark all read</button>
+      </div>
+      <ul id="noticeBellItems" class="portal-list"></ul>
+    </section>
+
+    <section class="portal-panel student-home-panel">
+      <div class="portal-panel-header">
+        <h2>Linked Faculty Details</h2>
+        <span class="portal-panel-tag">Guidance</span>
+      </div>
+      <ul id="linkedFacultyList" class="portal-list"></ul>
+    </section>
+
+    <section class="portal-panel portal-panel-wide student-home-panel">
+      <div class="portal-panel-header">
+        <h2>My Attendance</h2>
+        <span class="portal-panel-tag">Private</span>
+      </div>
+      <p class="portal-panel-subtitle">Only your attendance records are shown here.</p>
+      <div class="table-responsive mb-3">
+        <table class="table table-sm align-middle mb-2">
+          <tbody>
+            <tr>
+              <th scope="row">Total Present Days</th>
+              <td id="attendancePresentDays">0</td>
+              <th scope="row">Total Absent Days</th>
+              <td id="attendanceAbsentDays">0</td>
+              <th scope="row">Attendance %</th>
+              <td id="attendancePercentValue">0%</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="mb-2">
+          <small class="text-muted d-block">Overall Percentage</small>
+          <div class="progress" role="progressbar" aria-label="Attendance percentage">
+            <div id="attendancePercentBar" class="progress-bar bg-success" style="width: 0%;">0%</div>
+          </div>
+        </div>
+        <div class="mb-2">
+          <small class="text-muted d-block">Present vs Absent Days</small>
+          <div class="progress" role="progressbar" aria-label="Present vs absent">
+            <div id="attendancePresentBar" class="progress-bar bg-success" style="width: 0%;">Present</div>
+            <div id="attendanceAbsentBar" class="progress-bar bg-danger" style="width: 0%;">Absent</div>
+          </div>
+        </div>
+      </div>
+      <ul id="studentAttendanceList" class="portal-list"></ul>
+    </section>
+  </div>
+</main>
+
+<script src="script.js"></script>
+<script src="practical-exam-student.js"></script>
+</body>
+</html>
+
